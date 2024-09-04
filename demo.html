@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Boids Demo</title>
+    <style>
+        canvas{
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(to top, #040308, #AD4A28, #DD723C, #FC7001, #DCB697, #9BA5AE, #3E5879, #020B1A);
+        }
+        body{
+            height: 100vh;
+        }
+        #options-container{
+            background-color: #555555;
+            color: white;
+            bottom: 0;
+            right: 0;
+            position: fixed;
+            z-index: 2;
+            border-color: white;
+            border-radius: 20px;
+            padding: 20px 20px 5vh 20px;
+            opacity: 90%;
+        }
+    </style>
+</head>
+<body>
+<canvas id="flock-canvas"></canvas>
+<div id="options-container">
+    <h2 id="flock-options">Options</h2>
+    <label for="bird-count"  id="flock-num-label">Number of Birds</label><br>
+    <input type="range" min="1" max="1200" value="600" class="slider" id="bird-count"><br>
+    <label for="bird-speed" id="bird-speed-label">Speed</label><br>
+    <input type="range" min="0" max="20" value="10" class="slider" id="bird-speed"><br>
+    <label for="bird-coherence"  id="bird-coherence-label">Coherence</label><br>
+    <input type="range" min="0" max="50" value="5" class="slider" id="bird-coherence"><br>
+    <label for="bird-separation"  id="bird-separation-label">Separation</label><br>
+    <input type="range" min="0" max="500" value="40" class="slider" id="bird-separation"><br>
+    <label for="bird-alignment"  id="bird-alignment-label">Alignment</label><br>
+    <input type="range" min="0" max="500" value="50" class="slider" id="bird-alignment"><br>
+    <label for="bird-eyesight"  id="bird-eyesight-label">Sight Distance</label><br>
+    <input type="range" min="0" max="1000" value="80" class="slider" id="bird-eyesight"><br>
+    <label for="bird-3d"  id="bird-3d-label">3D Sky</label><br>
+    <input type="checkbox" checked value="false" id="bird-3d"><br>
+</div>
+<script type="text/javascript"  src="flock.js"></script>
+<script>
+    // start animation on the canvas
+    let flock = new Flock("flock-canvas")
+    flock.start_birds();
+
+    ////////////////////////
+    // Interactivity Code //
+    ////////////////////////
+
+    // adjust number of birds when slider is adjusted
+    document.getElementById("bird-count").onchange = function (){
+        let bird_count = parseInt(document.getElementById("bird-count").value);
+        flock.set_bird_number(bird_count);
+    }
+
+    // adjust maximum bird speed when slider is adjusted
+    let bird_speed_slider = document.getElementById("bird-speed");
+    bird_speed_slider.onchange = function (){
+        flock.set_max_speed(bird_speed_slider.value)
+    }
+
+    // update coherence when slider is adjusted
+    let bird_coherence_slider = document.getElementById("bird-coherence");
+    bird_coherence_slider.onchange = function(){flock.coherence=bird_coherence_slider.value*(1.0/1000);};
+    // update separation when slider is adjusted
+    let bird_separation_slider = document.getElementById("bird-separation");
+    bird_separation_slider.onchange = function(){flock.separation=bird_separation_slider.value*(1.0/1000);};
+    // update alignment when slider is adjusted
+    let bird_alignment_slider = document.getElementById("bird-alignment");
+    bird_alignment_slider.onchange = function(){flock.alignment=bird_alignment_slider.value*(1.0/1000);};
+    // update view range when slider is adjusted
+    let bird_eyesight_slider = document.getElementById("bird-eyesight");
+    bird_eyesight_slider.onchange = function(){this.view_range=bird_eyesight_slider.value;};
+    // update dimensions when checkbox checked/unchecked
+    let bird_3d_checkbox = document.getElementById("bird-3d");
+    bird_3d_checkbox.onchange = function(){
+        if(!bird_3d_checkbox.checked){
+            flock.go_2d()
+        }else{
+            flock.go_3d()
+        }
+    };
+
+</script>
+
+</body>
+</html>
