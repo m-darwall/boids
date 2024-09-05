@@ -78,7 +78,7 @@
     bird_alignment_slider.onchange = function(){flock.alignment=bird_alignment_slider.value*(1.0/1000);};
     // update view range when slider is adjusted
     let bird_eyesight_slider = document.getElementById("bird-eyesight");
-    bird_eyesight_slider.onchange = function(){this.view_range=bird_eyesight_slider.value;};
+    bird_eyesight_slider.onchange = function(){flock.view_range=bird_eyesight_slider.value;};
     // update dimensions when checkbox checked/unchecked
     let bird_3d_checkbox = document.getElementById("bird-3d");
     bird_3d_checkbox.onchange = function(){
